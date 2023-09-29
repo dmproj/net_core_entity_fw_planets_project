@@ -17,7 +17,7 @@ namespace hikitocAPI.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Image = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true)
                 },
                 constraints: table =>
@@ -43,7 +43,7 @@ namespace hikitocAPI.Migrations
                 columns: table => new
                 {
                     PlanetId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     DiameterKm = table.Column<double>(type: "float", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),

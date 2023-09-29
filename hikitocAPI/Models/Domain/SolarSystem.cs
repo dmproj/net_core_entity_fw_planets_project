@@ -10,7 +10,7 @@ namespace hikitocAPI.Models.Domain
         [StringLength(30)] //nvarchar(30)
         public string Code { get; set; }
 
-        [StringLength(20)]
+        [StringLength(30)]
         public string Name { get; set; }
 
         [StringLength(1000)]

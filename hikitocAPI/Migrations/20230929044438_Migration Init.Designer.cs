@@ -12,7 +12,7 @@ using hikitocAPI.Data;
 namespace hikitocAPI.Migrations
 {
     [DbContext(typeof(HikitocDbContext))]
-    [Migration("20230928023006_Migration Init")]
+    [Migration("20230929044438_Migration Init")]
     partial class MigrationInit
     {
         /// <inheritdoc />
@@ -45,8 +45,8 @@ namespace hikitocAPI.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<Guid>("SolarSystemId")
                         .HasColumnType("uniqueidentifier");
@@ -80,8 +80,8 @@ namespace hikitocAPI.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 

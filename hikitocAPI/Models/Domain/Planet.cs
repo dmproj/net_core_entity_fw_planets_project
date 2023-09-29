@@ -7,7 +7,7 @@ namespace hikitocAPI.Models.Domain
         [Key]
         public Guid PlanetId { get; set; }
 
-        [StringLength(20)] //nvarchar(20)
+        [StringLength(30)] //nvarchar(20)
         public string Name { get; set; } = null!; //null-forgiving op.
 
         [StringLength(1000)]
