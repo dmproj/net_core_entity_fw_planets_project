@@ -1,0 +1,3 @@
+Insert into SolarSystems
+([Id],[Code],[Name],[Image])
+values ('15F15B9E-EA50-4CFA-81CB-708B30D838D6','SUNS','Our Solar System','image.jpg');
