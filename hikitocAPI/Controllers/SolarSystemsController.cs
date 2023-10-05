@@ -1,4 +1,6 @@
 ﻿using hikitocAPI.Data;
+using hikitocAPI.Models.Domain;
+using hikitocAPI.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace hikitocAPI.Controllers
@@ -18,7 +20,16 @@ namespace hikitocAPI.Controllers
         public IActionResult GetAll()
         {
             var solarSystems = hikitocDbContext.SolarSystems.ToList();
-            return Ok(new { Message = "Success from controller", Data = solarSystems });
+
+            var solarSystemsDto = solarSystems.Select(solarSystem => new SolarSystemDto()
+            {
+                Id = solarSystem.Id,
+                Code = solarSystem.Code,
+                Name = solarSystem.Name,
+                Image = solarSystem.Image,
+            }).ToList();
+
+            return Ok(new { Message = "Success from GetAll action method", Data = solarSystemsDto });
         }
 
         //GET 1 SOLAR SYSTEM BY ID
@@ -26,16 +37,24 @@ namespace hikitocAPI.Controllers
 
         [HttpGet]
         [Route("{id:Guid}")] // localhost:port/api/solarsystems/{id}
-        public IActionResult GetById([FromRoute] Guid id) 
+        public IActionResult GetById([FromRoute] Guid id)
         {
-            var solarSystems = hikitocDbContext.SolarSystems.SingleOrDefault(item => item.Id == id);
+            var solarSystemSingle = hikitocDbContext.SolarSystems.SingleOrDefault(item => item.Id == id);
 
-            if (solarSystems == null)
+            if (solarSystemSingle == null)
             {
                 return NotFound(new { Message = "No Solar System found!" });
             }
-            
-            return Ok(new { Message = "1 Solar System found!", Data = solarSystems });
+
+            var solarSystemsDto = new SolarSystemDto
+            {
+                Id = solarSystemSingle.Id,
+                Code = solarSystemSingle.Code,
+                Name = solarSystemSingle.Name,
+                Image = solarSystemSingle.Image,
+            };
+
+            return Ok(new { Message = "1 Solar System found!", Data = solarSystemsDto });
         }
     }
 }
