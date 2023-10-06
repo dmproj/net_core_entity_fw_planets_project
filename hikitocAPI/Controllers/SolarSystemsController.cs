@@ -57,7 +57,7 @@ namespace hikitocAPI.Controllers
             return Ok(new { Message = "1 Solar System found!", Data = solarSystemDto });
         }
 
-        //POST/INSERT A SOLAR SYSTEM BY ID
+        //POST/INSERT A SOLAR SYSTEM
 
         [HttpPost] // localhost:port/api/solarsystems/
         public IActionResult InsertSingle([FromBody] InsertSolarSystemDto insertSolarSystemDto)
