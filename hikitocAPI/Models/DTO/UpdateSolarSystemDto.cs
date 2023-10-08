@@ -2,7 +2,7 @@
 
 namespace hikitocAPI.Models.DTO
 {
-    public class InsertSolarSystemDto
+    public class UpdateSolarSystemDto
     {
         [StringLength(30)] //nvarchar(30)
         public string Code { get; set; }

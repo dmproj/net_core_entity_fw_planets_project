@@ -2,6 +2,7 @@
 using hikitocAPI.Models.Domain;
 using hikitocAPI.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace hikitocAPI.Controllers
 {
@@ -68,7 +69,7 @@ namespace hikitocAPI.Controllers
                 Name = insertSolarSystemDto.Name,
                 Image = insertSolarSystemDto.Image,
             };
-            
+
             hikitocDbContext.SolarSystems.Add(solarSystem);
             hikitocDbContext.SaveChanges();
 
@@ -81,6 +82,54 @@ namespace hikitocAPI.Controllers
             };
 
             return Created("/api/solarsystems/" + solarSystem.Id, new { Message = "Solar System created!", Data = solarSystemDto });
+        }
+
+        //PUT/UPDATE 1 SOLAR SYSTEM BY ID
+        //[HttpPut("{id}")]
+
+        [HttpPut]
+        [Route("{id:Guid}")] // localhost:port/api/solarsystems/{id}
+        public async Task<IActionResult> UpdateById([FromRoute] Guid id, [FromBody] UpdateSolarSystemDto updateSolarSystemDto)
+        {
+            try
+            {
+                var solarSystemSingle = await hikitocDbContext.SolarSystems.SingleOrDefaultAsync(item => item.Id == id);
+
+                if (solarSystemSingle == null)
+                {
+                    return NotFound(new { Message = "No Solar System found!" });
+                }
+
+                solarSystemSingle.Code = updateSolarSystemDto.Code;
+                solarSystemSingle.Name = updateSolarSystemDto.Name;
+                solarSystemSingle.Image = updateSolarSystemDto.Image;
+
+                await hikitocDbContext.SaveChangesAsync();
+
+                var solarSystemDto = new SolarSystemDto
+                {
+                    Id = solarSystemSingle.Id,
+                    Code = solarSystemSingle.Code,
+                    Name = solarSystemSingle.Name,
+                    Image = solarSystemSingle.Image,
+                };
+
+                return Ok(new { Message = "1 Solar System updated!", Data = solarSystemDto });
+            }
+
+            catch (DbUpdateException ex)
+            {
+                Console.WriteLine($"Database Update Error: {ex}");
+
+                return StatusCode(500, new { Message = "An error occured while updating the database" });
+            }
+            
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex}");
+
+                return StatusCode(500, new { Message = "An error occured while processing the request" });
+            }
         }
     }
 }
