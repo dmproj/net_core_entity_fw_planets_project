@@ -123,7 +123,44 @@ namespace hikitocAPI.Controllers
 
                 return StatusCode(500, new { Message = "An error occured while updating the database" });
             }
-            
+
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex}");
+
+                return StatusCode(500, new { Message = "An error occured while processing the request" });
+            }
+        }
+
+        //DELETE A SOLAR SYSTEM BY ID
+        //[HttpDelete("{id}")]
+
+        [HttpDelete]
+        [Route("{id:Guid}")] // localhost:port/api/solarsystems/{id}
+        public async Task<IActionResult> DeleteById([FromRoute] Guid id)
+        {
+            try
+            {
+                var solarSystemSingle = await hikitocDbContext.SolarSystems.SingleOrDefaultAsync(item => item.Id == id);
+
+                if (solarSystemSingle == null)
+                {
+                    return NotFound(new { Message = "No Solar System found!" });
+                }
+
+                hikitocDbContext.SolarSystems.Remove(solarSystemSingle);
+                await hikitocDbContext.SaveChangesAsync();
+
+                return Ok(new { Message = "1 Solar System deleted!" });
+            }
+
+            catch (DbUpdateException ex)
+            {
+                Console.WriteLine($"Database Update Error: {ex}");
+
+                return StatusCode(500, new { Message = "An error occured while updating the database" });
+            }
+
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex}");
