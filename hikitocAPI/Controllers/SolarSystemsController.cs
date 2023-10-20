@@ -1,6 +1,7 @@
 ﻿using hikitocAPI.Data;
 using hikitocAPI.Models.Domain;
 using hikitocAPI.Models.DTO;
+using hikitocAPI.StorageRepositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,10 +12,12 @@ namespace hikitocAPI.Controllers
     public class SolarSystemsController : ControllerBase
     {
         private readonly HikitocDbContext hikitocDbContext;
+        private readonly ISolarSystemStorageRepository sqlSolarSystemStorageRepository;
 
-        public SolarSystemsController(HikitocDbContext hikitocDbContext)
+        public SolarSystemsController(HikitocDbContext hikitocDbContext, ISolarSystemStorageRepository sqlSolarSystemStorageRepository)
         {
             this.hikitocDbContext = hikitocDbContext;
+            this.sqlSolarSystemStorageRepository = sqlSolarSystemStorageRepository;
         }
 
         //GET ALL SOLAR SYSTEMS
@@ -23,7 +26,7 @@ namespace hikitocAPI.Controllers
         {
             try
             {
-                var solarSystems = await hikitocDbContext.SolarSystems.ToListAsync();
+                var solarSystems = await sqlSolarSystemStorageRepository.GetAllAsync();
 
                 var solarSystemsDto = solarSystems.Select(solarSystem => new SolarSystemDto()
                 {
@@ -168,6 +171,7 @@ namespace hikitocAPI.Controllers
 
         //DELETE A SOLAR SYSTEM BY ID
         //[HttpDelete("{id}")]
+
         [HttpDelete]
         [Route("{id:Guid}")] // localhost:port/api/solarsystems/{id}
         public async Task<IActionResult> DeleteById([FromRoute] Guid id)

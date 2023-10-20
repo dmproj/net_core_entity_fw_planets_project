@@ -1,4 +1,5 @@
 using hikitocAPI.Data;
+using hikitocAPI.StorageRepositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<HikitocDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("HikitocDatabase")));
+
+builder.Services.AddScoped<ISolarSystemStorageRepository, SqlSolarSystemStorageRepository>();
 
 var app = builder.Build();
 
