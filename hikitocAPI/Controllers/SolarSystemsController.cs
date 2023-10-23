@@ -57,7 +57,7 @@ namespace hikitocAPI.Controllers
         {
             try
             {
-                var solarSystemSingle = await hikitocDbContext.SolarSystems.SingleOrDefaultAsync(item => item.Id == id);
+                var solarSystemSingle = await sqlSolarSystemStorageRepository.GetByIdAsync(id);
 
                 if (solarSystemSingle == null)
                 {
@@ -98,8 +98,7 @@ namespace hikitocAPI.Controllers
                     Image = insertSolarSystemDto.Image,
                 };
 
-                hikitocDbContext.SolarSystems.Add(solarSystem);
-                await hikitocDbContext.SaveChangesAsync();
+                solarSystem = await sqlSolarSystemStorageRepository.InsertSingleAsync(solarSystem);
 
                 var solarSystemDto = new SolarSystemDto
                 {
@@ -130,18 +129,14 @@ namespace hikitocAPI.Controllers
         {
             try
             {
-                var solarSystemSingle = await hikitocDbContext.SolarSystems.SingleOrDefaultAsync(item => item.Id == id);
-
-                if (solarSystemSingle == null)
+                var solarSystemSingle = new SolarSystem
                 {
-                    return NotFound(new { Message = "No Solar System found!" });
-                }
+                    Code = updateSolarSystemDto.Code,
+                    Name = updateSolarSystemDto.Name,
+                    Image = updateSolarSystemDto.Image,
+                };
 
-                solarSystemSingle.Code = updateSolarSystemDto.Code;
-                solarSystemSingle.Name = updateSolarSystemDto.Name;
-                solarSystemSingle.Image = updateSolarSystemDto.Image;
-
-                await hikitocDbContext.SaveChangesAsync();
+                solarSystemSingle = await sqlSolarSystemStorageRepository.UpdateByIdAsync(id, solarSystemSingle);
 
                 var solarSystemDto = new SolarSystemDto
                 {
@@ -178,15 +173,12 @@ namespace hikitocAPI.Controllers
         {
             try
             {
-                var solarSystemSingle = await hikitocDbContext.SolarSystems.SingleOrDefaultAsync(item => item.Id == id);
+                var solarSystemSingle = await sqlSolarSystemStorageRepository.DeleteByIdAsync(id);
 
                 if (solarSystemSingle == null)
                 {
                     return NotFound(new { Message = "No Solar System found!" });
                 }
-
-                hikitocDbContext.SolarSystems.Remove(solarSystemSingle);
-                await hikitocDbContext.SaveChangesAsync();
 
                 return Ok(new { Message = "1 Solar System deleted!" });
             }
