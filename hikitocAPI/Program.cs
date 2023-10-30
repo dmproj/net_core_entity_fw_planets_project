@@ -1,4 +1,5 @@
 using hikitocAPI.Data;
+using hikitocAPI.MappingProfiles;
 using hikitocAPI.StorageRepositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<HikitocDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("HikitocDatabase")));
 
 builder.Services.AddScoped<ISolarSystemStorageRepository, SqlSolarSystemStorageRepository>();
+
+builder.Services.AddAutoMapper(typeof(SolarSystemsProfile));
 
 var app = builder.Build();
 

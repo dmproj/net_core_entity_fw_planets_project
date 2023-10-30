@@ -1,4 +1,5 @@
-﻿using hikitocAPI.Data;
+﻿using AutoMapper;
+using hikitocAPI.Data;
 using hikitocAPI.Models.Domain;
 using hikitocAPI.Models.DTO;
 using hikitocAPI.StorageRepositories;
@@ -13,11 +14,13 @@ namespace hikitocAPI.Controllers
     {
         private readonly HikitocDbContext hikitocDbContext;
         private readonly ISolarSystemStorageRepository sqlSolarSystemStorageRepository;
+        private readonly IMapper mapper;
 
-        public SolarSystemsController(HikitocDbContext hikitocDbContext, ISolarSystemStorageRepository sqlSolarSystemStorageRepository)
+        public SolarSystemsController(HikitocDbContext hikitocDbContext, ISolarSystemStorageRepository sqlSolarSystemStorageRepository, IMapper mapper)
         {
             this.hikitocDbContext = hikitocDbContext;
             this.sqlSolarSystemStorageRepository = sqlSolarSystemStorageRepository;
+            this.mapper = mapper;
         }
 
         //GET ALL SOLAR SYSTEMS
@@ -28,13 +31,7 @@ namespace hikitocAPI.Controllers
             {
                 var solarSystems = await sqlSolarSystemStorageRepository.GetAllAsync();
 
-                var solarSystemsDto = solarSystems.Select(solarSystem => new SolarSystemDto()
-                {
-                    Id = solarSystem.Id,
-                    Code = solarSystem.Code,
-                    Name = solarSystem.Name,
-                    Image = solarSystem.Image,
-                }).ToList();
+                var solarSystemsDto = mapper.Map<List<SolarSystemDto>>(solarSystems);
 
                 return Ok(new { Message = "Success from GetAll action method", Data = solarSystemsDto });
             }
