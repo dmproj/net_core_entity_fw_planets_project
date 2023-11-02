@@ -12,13 +12,11 @@ namespace hikitocAPI.Controllers
     [ApiController]
     public class SolarSystemsController : ControllerBase
     {
-        private readonly HikitocDbContext hikitocDbContext;
         private readonly ISolarSystemStorageRepository sqlSolarSystemStorageRepository;
         private readonly IMapper mapper;
 
-        public SolarSystemsController(HikitocDbContext hikitocDbContext, ISolarSystemStorageRepository sqlSolarSystemStorageRepository, IMapper mapper)
+        public SolarSystemsController(ISolarSystemStorageRepository sqlSolarSystemStorageRepository, IMapper mapper)
         {
-            this.hikitocDbContext = hikitocDbContext;
             this.sqlSolarSystemStorageRepository = sqlSolarSystemStorageRepository;
             this.mapper = mapper;
         }
@@ -61,13 +59,7 @@ namespace hikitocAPI.Controllers
                     return NotFound(new { Message = "No Solar System found!" });
                 }
 
-                var solarSystemDto = new SolarSystemDto
-                {
-                    Id = solarSystemSingle.Id,
-                    Code = solarSystemSingle.Code,
-                    Name = solarSystemSingle.Name,
-                    Image = solarSystemSingle.Image,
-                };
+                var solarSystemDto = mapper.Map<SolarSystemDto>(solarSystemSingle);
 
                 return Ok(new { Message = "1 Solar System found!", Data = solarSystemDto });
             }
@@ -88,22 +80,11 @@ namespace hikitocAPI.Controllers
         {
             try
             {
-                var solarSystem = new SolarSystem
-                {
-                    Code = insertSolarSystemDto.Code,
-                    Name = insertSolarSystemDto.Name,
-                    Image = insertSolarSystemDto.Image,
-                };
+                var solarSystem = mapper.Map<SolarSystem>(insertSolarSystemDto);
 
                 solarSystem = await sqlSolarSystemStorageRepository.InsertSingleAsync(solarSystem);
 
-                var solarSystemDto = new SolarSystemDto
-                {
-                    Id = solarSystem.Id,
-                    Code = solarSystem.Code,
-                    Name = solarSystem.Name,
-                    Image = solarSystem.Image,
-                };
+                var solarSystemDto = mapper.Map<SolarSystemDto>(solarSystem);
 
                 return Created("/api/solarsystems/" + solarSystem.Id, new { Message = "Solar System created!", Data = solarSystemDto });
             }
@@ -126,22 +107,11 @@ namespace hikitocAPI.Controllers
         {
             try
             {
-                var solarSystemSingle = new SolarSystem
-                {
-                    Code = updateSolarSystemDto.Code,
-                    Name = updateSolarSystemDto.Name,
-                    Image = updateSolarSystemDto.Image,
-                };
+                var solarSystemSingle = mapper.Map<SolarSystem>(updateSolarSystemDto);
 
                 solarSystemSingle = await sqlSolarSystemStorageRepository.UpdateByIdAsync(id, solarSystemSingle);
 
-                var solarSystemDto = new SolarSystemDto
-                {
-                    Id = solarSystemSingle.Id,
-                    Code = solarSystemSingle.Code,
-                    Name = solarSystemSingle.Name,
-                    Image = solarSystemSingle.Image,
-                };
+                var solarSystemDto = mapper.Map<SolarSystemDto>(solarSystemSingle);
 
                 return Ok(new { Message = "1 Solar System updated!", Data = solarSystemDto });
             }

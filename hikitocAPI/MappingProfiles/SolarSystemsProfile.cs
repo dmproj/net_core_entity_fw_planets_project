@@ -8,8 +8,32 @@ namespace hikitocAPI.MappingProfiles
     {
         public SolarSystemsProfile()
         {
-            CreateMap<SolarSystem, SolarSystemDto>();
-            CreateMap<SolarSystemDto, SolarSystem>();
+            CreateMap<SolarSystem, SolarSystemDto>().ReverseMap();
+            CreateMap<InsertSolarSystemDto, SolarSystem>().ReverseMap();
+            CreateMap<UpdateSolarSystemDto, SolarSystem>().ReverseMap();
+            
+            //CreateMap<UpdateSolarSystemDto, SolarSystem>()
+            //    .ForMember(dest => dest.Code, opt => opt.MapFrom(src =>src.Name))
+            //    .ReverseMap();
+
+            //var updateSolarSystemDto = new UpdateSolarSystemDto
+            //{
+            //    Code = "STRN",
+            //    Name = "Saturn",
+            //    Image = "saturn.jpg"
+            //};
+
+            //var one = Mapper.Map<SolarSystem>(updateSolarSystemDto);
+            //var two = Mapper.Map<UpdateSolarSystemDto>(one);
+
+            //var solarSystemsDto = solarSystems.Select(solarSystem => new SolarSystemDto()
+            //{
+            //    Id = solarSystem.Id,
+            //    Code = solarSystem.Code,
+            //    Name = solarSystem.Name,
+            //    Image = solarSystem.Image,
+            //}).ToList();
+
         }
     }
 }
