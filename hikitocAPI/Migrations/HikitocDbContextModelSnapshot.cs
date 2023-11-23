@@ -83,6 +83,22 @@ namespace hikitocAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SolarSystems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("b1f4b631-0680-4d93-b2ed-deeb858cb930"),
+                            Code = "SLRSYS",
+                            Image = "image1.jpg",
+                            Name = "Solar System"
+                        },
+                        new
+                        {
+                            Id = new Guid("fb336509-20ff-458b-8aa2-978090063fc0"),
+                            Code = "TRPST1",
+                            Image = "image2.jpg",
+                            Name = "TRAPPIST-1"
+                        });
                 });
 
             modelBuilder.Entity("hikitocAPI.Models.Domain.Water", b =>
@@ -103,6 +119,26 @@ namespace hikitocAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Waters");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("89f3868e-f904-4976-bebe-1f6494ea2540"),
+                            Image = "image1.jpg",
+                            Type = "Liquid"
+                        },
+                        new
+                        {
+                            Id = new Guid("a1e7b1ae-164e-486e-9ec2-c208da0550e5"),
+                            Image = "image2.jpg",
+                            Type = "Ice"
+                        },
+                        new
+                        {
+                            Id = new Guid("8c7bc12b-34cf-4d09-8f36-4f34d30e15ff"),
+                            Image = "image3.jpg",
+                            Type = "Unknown"
+                        });
                 });
 
             modelBuilder.Entity("hikitocAPI.Models.Domain.Planet", b =>
