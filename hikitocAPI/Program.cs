@@ -15,6 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<HikitocDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("HikitocDatabase")));
 
 builder.Services.AddScoped<ISolarSystemStorageRepository, SqlSolarSystemStorageRepository>();
+builder.Services.AddScoped<IPlanetStorageRepository, SqlPlanetStorageRepository>();
 
 builder.Services.AddAutoMapper(typeof(SolarSystemsProfile));
 

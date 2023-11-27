@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using hikitocAPI.Models.Domain;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System;
 
 namespace hikitocAPI.Data
 {
