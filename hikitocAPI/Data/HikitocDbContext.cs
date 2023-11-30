@@ -13,13 +13,21 @@ namespace hikitocAPI.Data
         public DbSet<SolarSystem> SolarSystems { get; set; }
         public DbSet<Water> Waters { get; set; }
 
+        private static readonly Guid LiquidWaterGuid = Guid.Parse("89F3868E-F904-4976-BEBE-1F6494EA2540");
+        private const string LiquidWaterImage = "image1.jpg";
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            if (!Guid.TryParse(LiquidWaterGuid.ToString(), out var waterId))
+            {
+                throw new InvalidOperationException("Invalid guid format for waterId.");
+            }
+
             var waters = new List<Water>()
             {
-                new Water() { Id = Guid.Parse("89F3868E-F904-4976-BEBE-1F6494EA2540"), Type = "Liquid", Image = "https://en.wikipedia.org/wiki/File:Johny_Cay.jpg"},
+                new Water() { Id = waterId, Type = "Liquid", Image = LiquidWaterImage},
                 new Water() { Id = Guid.Parse("A1E7B1AE-164E-486E-9EC2-C208DA0550E5"), Type = "Ice", Image = "https://en.wikipedia.org/wiki/Ice#/media/File:Ice_Block,_Canal_Park,_Duluth_(32752478892).jpg"},
                 new Water() { Id = Guid.Parse("8C7BC12B-34CF-4D09-8F36-4F34D30E15FF"), Type = "Unknown", Image = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Defense.gov_News_Photo_020221-D-9880W-080.jpg/440px-Defense.gov_News_Photo_020221-D-9880W-080.jpg"},
             };

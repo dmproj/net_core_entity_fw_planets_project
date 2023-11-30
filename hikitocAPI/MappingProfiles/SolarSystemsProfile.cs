@@ -16,6 +16,8 @@ namespace hikitocAPI.MappingProfiles
             CreateMap<InsertPlanetDto, Planet>().ReverseMap();
             CreateMap<UpdatePlanetDto, Planet>().ReverseMap();
 
+            CreateMap<Water, WaterDto>().ReverseMap();
+
             //CreateMap<UpdateSolarSystemDto, SolarSystem>()
             //    .ForMember(dest => dest.Code, opt => opt.MapFrom(src =>src.Name))
             //    .ReverseMap();

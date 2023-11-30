@@ -31,14 +31,14 @@ namespace hikitocAPI.StorageRepositories
 
         public async Task<List<Planet>> GetAllAsync()
         {
-            var planets = await hikitocDbContext.Planets.ToListAsync();
+            var planets = await hikitocDbContext.Planets.Include(item => item.SolarSystem).Include(item => item.Water).ToListAsync();
 
             return planets;
         }
 
         public async Task<Planet> GetByIdAsync(Guid id)
         {
-            var planetSingle = await hikitocDbContext.Planets.SingleOrDefaultAsync(item => item.PlanetId == id);
+            var planetSingle = await hikitocDbContext.Planets.Include(item => item.SolarSystem).Include(item => item.Water).SingleOrDefaultAsync(item => item.PlanetId == id);
 
             return planetSingle;
         }

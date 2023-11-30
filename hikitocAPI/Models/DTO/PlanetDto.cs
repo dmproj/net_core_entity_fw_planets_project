@@ -17,8 +17,7 @@ namespace hikitocAPI.Models.DTO
         [StringLength(1000)]
         public string? Image { get; set; }
 
-        public SolarSystem SolarSystem { get; set; }
-        public Water Water { get; set; }
+        public SolarSystemDto SolarSystem { get; set; }
+        public WaterDto Water { get; set; }
     }
 }
-

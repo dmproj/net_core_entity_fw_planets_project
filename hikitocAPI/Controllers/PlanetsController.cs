@@ -112,6 +112,11 @@ namespace hikitocAPI.Controllers
 
                 planetSingle = await sqlPlanetStorageRepository.UpdateByIdAsync(id, planetSingle);
 
+                if (planetSingle == null)
+                {
+                    return NotFound(new { Message = "No planet found!" });
+                }
+
                 var planetDto = mapper.Map<PlanetDto>(planetSingle);
 
                 return Ok(new { Message = "1 planet updated!", Data = planetDto });
