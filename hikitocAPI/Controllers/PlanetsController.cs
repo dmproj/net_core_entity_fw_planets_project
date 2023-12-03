@@ -5,6 +5,7 @@ using hikitocAPI.StorageRepositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace hikitocAPI.Controllers
 {
@@ -15,7 +16,7 @@ namespace hikitocAPI.Controllers
     {
         private readonly IPlanetStorageRepository sqlPlanetStorageRepository;
         private readonly IMapper mapper;
-        
+
         public PlanetsController(IPlanetStorageRepository sqlPlanetStorageRepository, IMapper mapper)
         {
             this.sqlPlanetStorageRepository = sqlPlanetStorageRepository;
@@ -82,6 +83,19 @@ namespace hikitocAPI.Controllers
             try
             {
                 var planet = mapper.Map<Planet>(insertPlanetDto);
+
+                //if (!ModelState.IsValid)
+                //{
+                //    return BadRequest(new { Message = "error from !ModelState.IsValid", ModelState });
+                //}
+
+                var validationContext = new ValidationContext(planet);
+                var validationResults = new List<ValidationResult>();
+
+                if (!Validator.TryValidateObject(planet, validationContext, validationResults, true))
+                {
+                    return BadRequest(new { Message = "Custom validation error", Errors = validationResults.Select(r => r.ErrorMessage) });
+                }
 
                 planet = await sqlPlanetStorageRepository.InsertSingleAsync(planet);
 

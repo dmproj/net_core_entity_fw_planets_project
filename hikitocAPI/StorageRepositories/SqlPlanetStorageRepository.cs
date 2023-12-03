@@ -63,7 +63,7 @@ namespace hikitocAPI.StorageRepositories
             planetSingle.Name = planet.Name;
             planetSingle.Description = planet.Description;
             planetSingle.DiameterKm = planet.DiameterKm;
-            planetSingle.Image = planet.Image; 
+            planetSingle.Image = planet.Image;
             planetSingle.SolarSystemId = planet.SolarSystemId;
             planetSingle.WaterId = planet.WaterId;
 
