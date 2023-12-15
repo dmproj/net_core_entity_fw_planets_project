@@ -5,14 +5,17 @@ namespace hikitocAPI.Models.DTO
 {
     public class InsertPlanetDto
     {
-        [StringLength(30)] //nvarchar(20)
-        public string Name { get; set; } = null!; //null-forgiving op.
+        [StringLength(30, MinimumLength = 1, ErrorMessage = "The {0} field must be between {2} and {1} characters")]
+        public string Name { get; set; } = null!;
 
-        [StringLength(1000)]
+        //[Required(ErrorMessage = "[Required] attribute, ** custom error message **")] // The [Required] attribute can be omitted, as it is handled implicitly by the framework.
+        [StringLength(1000, MinimumLength = 1, ErrorMessage = "The {0} field must be between {2} and {1} characters")]
         public string Description { get; set; }
+
+        [Range(1, double.MaxValue, ErrorMessage = "The DiameterKm field must be a positive value")]
         public double DiameterKm { get; set; }
 
-        [StringLength(1000)]
+        [StringLength(1000, MinimumLength = 1, ErrorMessage = "The {0} field must be between {2} and {1} characters")]
         public string? Image { get; set; }
         public Guid SolarSystemId { get; set; }
         public Guid WaterId { get; set; }
