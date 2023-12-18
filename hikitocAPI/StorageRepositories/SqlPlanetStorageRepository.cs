@@ -1,6 +1,7 @@
 ﻿using hikitocAPI.Data;
 using hikitocAPI.Models.Domain;
 using hikitocAPI.Models.DTO;
+using hikitocAPI.Models.Queries;
 using Microsoft.EntityFrameworkCore;
 
 namespace hikitocAPI.StorageRepositories
@@ -29,11 +30,23 @@ namespace hikitocAPI.StorageRepositories
             return planetSingle;
         }
 
-        public async Task<List<Planet>> GetAllAsync()
+        public async Task<List<Planet>> GetAllAsync(PlanetsQueryParameters? planetsQueryParameters)
         {
-            var planets = await hikitocDbContext.Planets.Include(item => item.SolarSystem).Include(item => item.Water).ToListAsync();
+            var planets = hikitocDbContext.Planets.Include("SolarSystem").Include("Water").AsQueryable();
 
-            return planets;
+            if (!string.IsNullOrEmpty(planetsQueryParameters.FilterBy) && !string.IsNullOrEmpty(planetsQueryParameters.Contains))
+            {
+                if (planetsQueryParameters.FilterBy.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    planets = planets.Where(item => item.Name.Contains(planetsQueryParameters.Contains));
+                }
+            }
+
+            return await planets.ToListAsync();
+
+            //var planets = await hikitocDbContext.Planets.Include(item => item.SolarSystem).Include(item => item.Water).ToListAsync();
+
+            //return planets;
         }
 
         public async Task<Planet> GetByIdAsync(Guid id)

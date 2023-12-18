@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using hikitocAPI.Models.Domain;
 using hikitocAPI.Models.DTO;
+using hikitocAPI.Models.Queries;
 using hikitocAPI.StorageRepositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,11 +26,13 @@ namespace hikitocAPI.Controllers
 
         //GET ALL PLANETS
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] PlanetsQueryParameters? planetsQueryParameters)
         {
             try
             {
-                var planets = await sqlPlanetStorageRepository.GetAllAsync();
+                planetsQueryParameters ??= new PlanetsQueryParameters();
+
+                var planets = await sqlPlanetStorageRepository.GetAllAsync(planetsQueryParameters);
 
                 var planetsDto = mapper.Map<List<PlanetDto>>(planets);
 
